@@ -34,7 +34,7 @@ func New(country, provider string, bandwidth, avgRespTime int) *SMS {
 	}
 }
 
-func StrToSMS(str string) *SMS {
+func FromSTR(str string) *SMS {
 	listStr := strings.Split(str, ";")
 	if len(listStr) < 4 {
 		return nil

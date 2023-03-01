@@ -15,7 +15,7 @@ func NewSMSStorage(filename string) *SMSStorage {
 	smsStr := pars.ParseFile(filename)
 	ss := SMSStorage{}
 	for _, s := range smsStr {
-		res := sms.StrToSMS(s)
+		res := sms.FromSTR(s)
 		if res == nil {
 			continue
 		}
