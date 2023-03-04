@@ -1,6 +1,8 @@
 package pars
 
 import (
+	"encoding/json"
+	"io"
 	"log"
 	"os"
 	"strings"
@@ -19,4 +21,12 @@ func ReadFile(filePath string) []byte {
 		log.Fatalf("Ошибка получения данных:\n%v", err)
 	}
 	return content
+}
+
+func JSON[T any](storage *T, r io.Reader) bool {
+	content, err := io.ReadAll(r)
+	if err = json.Unmarshal(content, &storage); err != nil {
+		return false
+	}
+	return true
 }

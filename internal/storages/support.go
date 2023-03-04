@@ -1,23 +1,20 @@
 package storages
 
 import (
-	"encoding/json"
 	"github.com/CyclopsV/service-status-skillbox/internal/support"
-	"io"
-	"net/http"
+	"github.com/CyclopsV/service-status-skillbox/pkg/apiRequest"
+	"github.com/CyclopsV/service-status-skillbox/pkg/pars"
 )
 
 type SupportStorage []*support.Support
 
 func NewSupportStorage() *SupportStorage {
-	url := "http://127.0.0.1:8383/support"
-	resp, err := http.Get(url)
+	resp := apiRequest.Get("http://127.0.0.1:8383/support")
 	ss := SupportStorage{}
-	if err != nil || resp.StatusCode != http.StatusOK {
+	if resp == nil {
 		return &ss
 	}
-	content, err := io.ReadAll(resp.Body)
-	if err = json.Unmarshal(content, &ss); err != nil {
+	if pars.JSON(&ss, resp.Body) {
 		return &ss
 	}
 	ss.deleteErrData()
