@@ -14,22 +14,9 @@ func NewSupportStorage() *SupportStorage {
 	if resp == nil {
 		return &ss
 	}
-	if pars.JSON(&ss, resp.Body) {
+	if !pars.JSON(&ss, resp.Body) {
 		return &ss
 	}
-	ss.deleteErrData()
+	deleteErrData(ss)
 	return &ss
-}
-
-func (ss *SupportStorage) deleteErrData() {
-	for i, el := range *ss {
-		if !el.Check() {
-			ss.drop(i)
-		}
-	}
-}
-
-func (ss *SupportStorage) drop(i int) {
-	(*ss)[i] = (*ss)[len(*ss)-1]
-	*ss = (*ss)[:len(*ss)-1]
 }
