@@ -12,7 +12,7 @@ func (es *EmailStorage) Add(obj *email.Email) {
 }
 
 func NewEmailStorage(filename string) *EmailStorage {
-	emailStr := pars.ParseFile(filename)
+	emailStr := pars.FileToStr(filename)
 	es := EmailStorage{}
 	for _, s := range emailStr {
 		res := email.FromSTR(s)
