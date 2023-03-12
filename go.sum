@@ -1,0 +1,6 @@
+github.com/ferdypruis/iso3166 v1.1.0 h1:xaD/enYv1245rw9hQQ4uGm8X7t5qM9NHi8xIwXb894g=
+github.com/ferdypruis/iso3166 v1.1.0/go.mod h1:b1SgXBUcTm0a2NNiP0Mdo+V9czo5SImv1IDqd06k4Ps=
+github.com/go-chi/chi v1.5.4 h1:QHdzF2szwjqVV4wmByUnTcsbIg7UGaQ0tPF2t5GcAIs=
+github.com/go-chi/chi v1.5.4/go.mod h1:uaf8YgoFazUOkPBG7fxPftUylNumIev9awIWOENIuEg=
+golang.org/x/exp v0.0.0-20230310171629-522b1b587ee0 h1:LGJsf5LRplCck6jUCH3dBL2dmycNruWNF5xugkSlfXw=
+golang.org/x/exp v0.0.0-20230310171629-522b1b587ee0/go.mod h1:CxIveKay+FTh1D0yPZemJVgC/95VzuuOLq5Qi4xnoYc=
