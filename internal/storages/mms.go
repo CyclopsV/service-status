@@ -22,6 +22,9 @@ func NewMMSStorage() (*MMSStorage, error) {
 		return nil, fmt.Errorf("ошибка получения данных MMS:\n%v", err)
 	}
 	content, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
 	var buf []map[string]interface{}
 	if err = json.Unmarshal(content, &buf); err != nil {
 		return nil, fmt.Errorf("ошибка чтения данных MMS:\n%v", err)

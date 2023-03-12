@@ -25,6 +25,9 @@ func ReadFile(filePath string) ([]byte, error) {
 
 func JSON[T any](storage *T, r io.Reader) error {
 	content, err := io.ReadAll(r)
+	if err != nil {
+		return err
+	}
 	if err = json.Unmarshal(content, &storage); err != nil {
 		return err
 	}

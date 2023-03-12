@@ -11,5 +11,5 @@ func ConnectionHandler(w http.ResponseWriter, _ *http.Request) {
 	resBytes, _ := json.Marshal(res)
 	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(resBytes)
+	_, _ = w.Write(resBytes)
 }

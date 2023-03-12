@@ -140,5 +140,6 @@ func incidentDataF() (IncidentStorage, error) {
 	if err != nil {
 		return nil, err
 	}
+	incidentData.sort()
 	return *incidentData, nil
 }
