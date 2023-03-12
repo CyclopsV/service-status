@@ -11,8 +11,11 @@ func (vcs *VCStorage) Add(obj *voiceCall.VoiceCall) {
 	*vcs = append(*vcs, obj)
 }
 
-func NewVCStorage(filename string) *VCStorage {
-	smsStr := pars.FileToStr(filename)
+func NewVCStorage(filename string) (*VCStorage, error) {
+	smsStr, err := pars.FileToStr(filename)
+	if err != nil {
+		return nil, err
+	}
 	ss := VCStorage{}
 	for _, s := range smsStr {
 		res := voiceCall.FromSTR(s)
@@ -21,5 +24,5 @@ func NewVCStorage(filename string) *VCStorage {
 		}
 		ss.Add(res)
 	}
-	return &ss
+	return &ss, nil
 }

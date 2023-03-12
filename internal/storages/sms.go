@@ -11,8 +11,11 @@ func (ss *SMSStorage) Add(obj *sms.SMS) {
 	*ss = append(*ss, obj)
 }
 
-func NewSMSStorage(filename string) *SMSStorage {
-	smsStr := pars.FileToStr(filename)
+func NewSMSStorage(filename string) (*SMSStorage, error) {
+	smsStr, err := pars.FileToStr(filename)
+	if err != nil {
+		return nil, err
+	}
 	ss := SMSStorage{}
 	for _, s := range smsStr {
 		res := sms.FromSTR(s)
@@ -21,5 +24,5 @@ func NewSMSStorage(filename string) *SMSStorage {
 		}
 		ss.Add(res)
 	}
-	return &ss
+	return &ss, nil
 }

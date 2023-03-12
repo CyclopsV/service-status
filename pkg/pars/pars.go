@@ -8,25 +8,25 @@ import (
 	"strings"
 )
 
-func FileToStr(filePath string) []string {
-	content := ReadFile(filePath)
+func FileToStr(filePath string) ([]string, error) {
+	content, err := ReadFile(filePath)
 	listStrings := strings.Split(string(content), "\n")
-	return listStrings
+	return listStrings, err
 }
 
-func ReadFile(filePath string) []byte {
+func ReadFile(filePath string) ([]byte, error) {
 	log.Printf("Извлечение данных из файла `%v`", filePath)
 	content, err := os.ReadFile(filePath)
 	if err != nil {
 		log.Fatalf("Ошибка получения данных:\n%v", err)
 	}
-	return content
+	return content, err
 }
 
-func JSON[T any](storage *T, r io.Reader) bool {
+func JSON[T any](storage *T, r io.Reader) error {
 	content, err := io.ReadAll(r)
 	if err = json.Unmarshal(content, &storage); err != nil {
-		return false
+		return err
 	}
-	return true
+	return nil
 }

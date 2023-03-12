@@ -11,8 +11,11 @@ func (es *EmailStorage) Add(obj *email.Email) {
 	*es = append(*es, obj)
 }
 
-func NewEmailStorage(filename string) *EmailStorage {
-	emailStr := pars.FileToStr(filename)
+func NewEmailStorage(filename string) (*EmailStorage, error) {
+	emailStr, err := pars.FileToStr(filename)
+	if err != nil {
+		return nil, err
+	}
 	es := EmailStorage{}
 	for _, s := range emailStr {
 		res := email.FromSTR(s)
@@ -21,5 +24,5 @@ func NewEmailStorage(filename string) *EmailStorage {
 		}
 		es.Add(res)
 	}
-	return &es
+	return &es, nil
 }
