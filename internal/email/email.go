@@ -24,9 +24,9 @@ var allowedProviders = []string{
 }
 
 type Email struct {
-	country         string
-	avgDeliveryTime int
-	provider        string
+	Country         string
+	AvgDeliveryTime int
+	Provider        string
 }
 
 func New(country, provider string, avgDeliveryTime int) *Email {
@@ -37,9 +37,9 @@ func New(country, provider string, avgDeliveryTime int) *Email {
 		return nil
 	}
 	return &Email{
-		country:         country,
-		avgDeliveryTime: avgDeliveryTime,
-		provider:        provider,
+		Country:         country,
+		AvgDeliveryTime: avgDeliveryTime,
+		Provider:        provider,
 	}
 }
 

@@ -10,14 +10,15 @@ import (
 var allowedProviders = []string{"Topolo", "Rond", "Kildy"}
 
 type SMS struct {
-	country     string
-	bandwidth   int
-	avgRespTime int
-	provider    string
+	Country     string `json:"country"`
+	Bandwidth   int    `json:"bandwidth"`
+	AvgRespTime int    `json:"avg_resp_time"`
+	Provider    string `json:"provider"`
 }
 
 func New(country, provider string, bandwidth, avgRespTime int) *SMS {
-	if _, err := iso3166.FromAlpha2(country); err != nil {
+	c, err := iso3166.FromAlpha2(country)
+	if err != nil {
 		return nil
 	}
 	if bandwidth < 0 && bandwidth > 100 {
@@ -27,10 +28,10 @@ func New(country, provider string, bandwidth, avgRespTime int) *SMS {
 		return nil
 	}
 	return &SMS{
-		country:     country,
-		bandwidth:   bandwidth,
-		avgRespTime: avgRespTime,
-		provider:    provider,
+		Country:     c.Name(),
+		Bandwidth:   bandwidth,
+		AvgRespTime: avgRespTime,
+		Provider:    provider,
 	}
 }
 

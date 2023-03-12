@@ -13,11 +13,31 @@ func NewSupportStorage() (*SupportStorage, error) {
 	resp := apiRequest.Get("http://127.0.0.1:8383/support")
 	ss := SupportStorage{}
 	if resp == nil {
-		return &ss, fmt.Errorf("ошибка получения данных")
+		return &ss, fmt.Errorf("ошибка получения данных Support")
 	}
 	if err := pars.JSON(&ss, resp.Body); err != nil {
 		return &ss, err
 	}
 	deleteErrData(ss)
 	return &ss, nil
+}
+
+func (s SupportStorage) CurrentLoad() (int, int) {
+	countTickets := 0
+	for _, el := range s {
+		countTickets += el.ActiveTickets
+	}
+	loadStats := 1
+	switch {
+	case countTickets < 9:
+		loadStats = 1
+	case countTickets <= 16:
+		loadStats = 2
+	case countTickets > 16:
+		loadStats = 3
+	}
+	avgTimeTicket := 60 / 18
+	fullTimeTicket := avgTimeTicket * countTickets
+	waitingTime := fullTimeTicket + avgTimeTicket
+	return loadStats, waitingTime
 }

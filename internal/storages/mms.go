@@ -2,10 +2,11 @@ package storages
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/CyclopsV/service-status-skillbox/internal/mms"
 	"io"
-	"log"
 	"net/http"
+	"sort"
 )
 
 type MMSStorage []*mms.MMS
@@ -18,14 +19,12 @@ func NewMMSStorage() (*MMSStorage, error) {
 	url := "http://127.0.0.1:8383/mms"
 	resp, err := http.Get(url)
 	if err != nil || resp.StatusCode != http.StatusOK {
-		log.Fatalf("Ошибка получения данных MMS:\n%v", err)
-		return nil, err
+		return nil, fmt.Errorf("ошибка получения данных MMS:\n%v", err)
 	}
 	content, err := io.ReadAll(resp.Body)
 	var buf []map[string]interface{}
 	if err = json.Unmarshal(content, &buf); err != nil {
-		log.Fatalf("Ошибка чтения данных MMS:\n%v", err)
-		return nil, err
+		return nil, fmt.Errorf("ошибка чтения данных MMS:\n%v", err)
 	}
 	ms := MMSStorage{}
 	for _, el := range buf {
@@ -36,4 +35,18 @@ func NewMMSStorage() (*MMSStorage, error) {
 	}
 
 	return &ms, nil
+}
+
+func (ms MMSStorage) SortCountry() {
+	sortF := func(i, j int) bool {
+		return ms[i].Country < ms[j].Country
+	}
+	sort.SliceStable(ms, sortF)
+}
+
+func (ms MMSStorage) SortProvider() {
+	sortF := func(i, j int) bool {
+		return ms[i].Provider < ms[j].Provider
+	}
+	sort.SliceStable(ms, sortF)
 }

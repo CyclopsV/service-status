@@ -10,14 +10,14 @@ import (
 var allowedProviders = []string{"TransparentCalls", "E-Voice", "JustPhone"}
 
 type VoiceCall struct {
-	country         string
-	bandwidth       int
-	avgRespTime     int
-	provider        string
-	conStability    float32
-	clean           int
-	avgCallDuration int
-	unknownField    int // Так 7 или 8 полей?
+	Country         string  `json:"country"`
+	Bandwidth       int     `json:"bandwidth"`
+	AvgRespTime     int     `json:"avg_resp_time"`
+	Provider        string  `json:"provider"`
+	ConStability    float32 `json:"con_stability"`
+	Clean           int     `json:"clean"`
+	AvgCallDuration int     `json:"avg_call_duration"`
+	UnknownField    int     `json:"unknown_field"` // Так 7 или 8 полей?
 }
 
 func New(country, provider string, bandwidth, avgRespTime, clean, avgCallDuration, unknownField int, conStability float32) *VoiceCall {
@@ -31,14 +31,14 @@ func New(country, provider string, bandwidth, avgRespTime, clean, avgCallDuratio
 		return nil
 	}
 	return &VoiceCall{
-		country:         country,
-		bandwidth:       bandwidth,
-		avgRespTime:     avgRespTime,
-		provider:        provider,
-		conStability:    conStability,
-		clean:           clean,
-		avgCallDuration: avgCallDuration,
-		unknownField:    unknownField,
+		Country:         country,
+		Bandwidth:       bandwidth,
+		AvgRespTime:     avgRespTime,
+		Provider:        provider,
+		ConStability:    conStability,
+		Clean:           clean,
+		AvgCallDuration: avgCallDuration,
+		UnknownField:    unknownField,
 	}
 }
 

@@ -1,32 +1,32 @@
 package billing
 
 import (
+	"errors"
 	"github.com/CyclopsV/service-status-skillbox/pkg/pars"
-	"log"
 )
 
 type BillingData struct {
-	createCustomer bool
-	purchase       bool
-	payout         bool
-	recurring      bool
-	fraudControl   bool
-	checkoutPage   bool
+	CreateCustomer bool `json:"create_customer"`
+	Purchase       bool `json:"purchase"`
+	Payout         bool `json:"payout"`
+	Recurring      bool `json:"recurring"`
+	FraudControl   bool `json:"fraud_control"`
+	CheckoutPage   bool `json:"checkout_page"`
 }
 
-func New(path string) *BillingData {
-	content := pars.ReadFile(path)
-	if len(content) != 6 {
-		log.Fatalf("Не верная длина битовой маски")
+func New(path string) (*BillingData, error) {
+	content, err := pars.ReadFile(path)
+	if len(content) != 6 || err != nil {
+		return nil, errors.New("ошибка входных данных billing")
 	}
 	return &BillingData{
-		createCustomer: check(content[5]),
-		purchase:       check(content[4]),
-		payout:         check(content[3]),
-		recurring:      check(content[2]),
-		fraudControl:   check(content[1]),
-		checkoutPage:   check(content[0]),
-	}
+		CreateCustomer: check(content[5]),
+		Purchase:       check(content[4]),
+		Payout:         check(content[3]),
+		Recurring:      check(content[2]),
+		FraudControl:   check(content[1]),
+		CheckoutPage:   check(content[0]),
+	}, nil
 }
 
 func check(status byte) bool {

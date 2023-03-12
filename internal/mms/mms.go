@@ -16,7 +16,8 @@ type MMS struct {
 }
 
 func New(country, provider, bandwidthSTR, avgRespTime string) *MMS {
-	if _, err := iso3166.FromAlpha2(country); err != nil {
+	c, err := iso3166.FromAlpha2(country)
+	if err != nil {
 		return nil
 	}
 	bandwidth, err := strconv.Atoi(bandwidthSTR)
@@ -31,7 +32,7 @@ func New(country, provider, bandwidthSTR, avgRespTime string) *MMS {
 		return nil
 	}
 	return &MMS{
-		Country:      country,
+		Country:      c.Name(),
 		Bandwidth:    bandwidth,
 		ResponseTime: ResponseTime,
 		Provider:     provider,
