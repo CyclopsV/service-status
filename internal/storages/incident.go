@@ -2,16 +2,21 @@ package storages
 
 import (
 	"fmt"
+	"sort"
+
 	"github.com/CyclopsV/service-status-skillbox/internal/incident"
 	"github.com/CyclopsV/service-status-skillbox/pkg/apiRequest"
 	"github.com/CyclopsV/service-status-skillbox/pkg/pars"
-	"sort"
 )
 
 type IncidentStorage []*incident.Incident
 
-func NewIncidentStorage() (*IncidentStorage, error) {
-	resp := apiRequest.Get("http://127.0.0.1:8383/accendent")
+func NewIncidentStorage(url string) (*IncidentStorage, error) {
+	return createIncidentStorage(url)
+}
+
+func createIncidentStorage(url string) (*IncidentStorage, error) {
+	resp := apiRequest.Get(url)
 	is := IncidentStorage{}
 	if resp == nil {
 		return &is, fmt.Errorf("ошибка получения данных Incident")

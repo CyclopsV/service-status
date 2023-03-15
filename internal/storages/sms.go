@@ -1,9 +1,10 @@
 package storages
 
 import (
+	"sort"
+
 	"github.com/CyclopsV/service-status-skillbox/internal/sms"
 	"github.com/CyclopsV/service-status-skillbox/pkg/pars"
-	"sort"
 )
 
 type SMSStorage []*sms.SMS
@@ -13,6 +14,10 @@ func (ss *SMSStorage) Add(obj *sms.SMS) {
 }
 
 func NewSMSStorage(filename string) (*SMSStorage, error) {
+	return createSMSStorage(filename)
+}
+
+func createSMSStorage(filename string) (*SMSStorage, error) {
 	smsStr, err := pars.FileToStr(filename)
 	if err != nil {
 		return nil, err

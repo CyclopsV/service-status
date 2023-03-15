@@ -12,6 +12,10 @@ func (vcs *VCStorage) Add(obj *voiceCall.VoiceCall) {
 }
 
 func NewVCStorage(filename string) (*VCStorage, error) {
+	return createVCStorage(filename)
+}
+
+func createVCStorage(filename string) (*VCStorage, error) {
 	smsStr, err := pars.FileToStr(filename)
 	if err != nil {
 		return nil, err

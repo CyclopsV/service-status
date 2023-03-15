@@ -1,6 +1,9 @@
 package storages
 
-import "github.com/CyclopsV/service-status-skillbox/internal/billing"
+import (
+	"github.com/CyclopsV/service-status-skillbox/configs"
+	"github.com/CyclopsV/service-status-skillbox/internal/billing"
+)
 
 type ResultSetT struct {
 	SMS       []SMSStorage                 `json:"sms"`
@@ -17,6 +20,8 @@ type ResultT struct {
 	Data   *ResultSetT `json:"data"`   // Заполнен, если все этапы сбора  данных прошли успешно, nil во всех остальных случаях
 	Error  []string    `json:"errors"` // Пустая строка, если все этапы сбора данных прошли успешно, в случае ошибки заполнено текстом ошибки
 }
+
+var config = configs.GetConfig()
 
 func GetResultData() ResultT {
 	data := ResultSetT{}
@@ -69,8 +74,8 @@ func GetResultData() ResultT {
 }
 
 func smsDataF() ([]SMSStorage, error) {
-	smsPath := "../skillbox-diploma/sms.data"
-	smsStorage, err := NewSMSStorage(smsPath)
+	path := config.SMS
+	smsStorage, err := NewSMSStorage(path)
 	if err != nil {
 		return nil, err
 	}
@@ -84,7 +89,8 @@ func smsDataF() ([]SMSStorage, error) {
 }
 
 func mmsDataF() ([]MMSStorage, error) {
-	mmsStorage, err := NewMMSStorage()
+	path := config.MMS
+	mmsStorage, err := NewMMSStorage(path)
 	if err != nil {
 		return nil, err
 	}
@@ -98,14 +104,14 @@ func mmsDataF() ([]MMSStorage, error) {
 }
 
 func vcDataF() (VCStorage, error) {
-	vcPath := "../skillbox-diploma/voice.data"
-	vcData, err := NewVCStorage(vcPath)
+	path := config.VoiceCall
+	vcData, err := NewVCStorage(path)
 	return *vcData, err
 }
 
 func emailDataF() (map[string][]providerStorage, error) {
-	emailPath := "../skillbox-diploma/email.data"
-	emailStorage, err := NewEmailStorage(emailPath)
+	path := config.Email
+	emailStorage, err := NewEmailStorage(path)
 	if err != nil {
 		return nil, err
 	}
@@ -121,13 +127,14 @@ func emailDataF() (map[string][]providerStorage, error) {
 }
 
 func billingDataF() (billing.BillingData, error) {
-	billingPath := "../skillbox-diploma/billing.data"
-	billingData, err := billing.New(billingPath)
+	path := config.Billing
+	billingData, err := billing.New(path)
 	return *billingData, err
 }
 
 func supportDataF() ([]int, error) {
-	supportData, err := NewSupportStorage()
+	path := config.Support
+	supportData, err := NewSupportStorage(path)
 	if err != nil {
 		return nil, err
 	}
@@ -136,7 +143,8 @@ func supportDataF() ([]int, error) {
 }
 
 func incidentDataF() (IncidentStorage, error) {
-	incidentData, err := NewIncidentStorage()
+	path := config.Incident
+	incidentData, err := NewIncidentStorage(path)
 	if err != nil {
 		return nil, err
 	}

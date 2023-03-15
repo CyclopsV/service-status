@@ -2,6 +2,7 @@ package storages
 
 import (
 	"fmt"
+
 	"github.com/CyclopsV/service-status-skillbox/internal/support"
 	"github.com/CyclopsV/service-status-skillbox/pkg/apiRequest"
 	"github.com/CyclopsV/service-status-skillbox/pkg/pars"
@@ -9,8 +10,12 @@ import (
 
 type SupportStorage []*support.Support
 
-func NewSupportStorage() (*SupportStorage, error) {
-	resp := apiRequest.Get("http://127.0.0.1:8383/support")
+func NewSupportStorage(url string) (*SupportStorage, error) {
+	return createSupportStorage(url)
+}
+
+func createSupportStorage(url string) (*SupportStorage, error) {
+	resp := apiRequest.Get(url)
 	ss := SupportStorage{}
 	if resp == nil {
 		return &ss, fmt.Errorf("ошибка получения данных Support")

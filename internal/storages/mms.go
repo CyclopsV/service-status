@@ -3,10 +3,11 @@ package storages
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/CyclopsV/service-status-skillbox/internal/mms"
 	"io"
 	"net/http"
 	"sort"
+
+	"github.com/CyclopsV/service-status-skillbox/internal/mms"
 )
 
 type MMSStorage []*mms.MMS
@@ -15,8 +16,11 @@ func (ms *MMSStorage) Add(obj *mms.MMS) {
 	*ms = append(*ms, obj)
 }
 
-func NewMMSStorage() (*MMSStorage, error) {
-	url := "http://127.0.0.1:8383/mms"
+func NewMMSStorage(url string) (*MMSStorage, error) {
+	return createMMSStorage(url)
+}
+
+func createMMSStorage(url string) (*MMSStorage, error) {
 	resp, err := http.Get(url)
 	if err != nil || resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("ошибка получения данных MMS:\n%v", err)
