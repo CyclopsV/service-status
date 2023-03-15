@@ -1,9 +1,11 @@
 package main
 
 import (
-	"github.com/CyclopsV/service-status-skillbox/api/routes"
 	"log"
 	"net/http"
+	"os"
+
+	"github.com/CyclopsV/service-status-skillbox/api/routes"
 )
 
 func main() {
@@ -11,6 +13,7 @@ func main() {
 	r := routes.CreateRouter()
 	err := http.ListenAndServe(":8080", r)
 	if err != nil {
-		panic(err)
+		log.Printf("Не удалось запустить сервер:\n%v", err)
+		os.Exit(1)
 	}
 }

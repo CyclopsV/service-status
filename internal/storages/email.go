@@ -1,9 +1,10 @@
 package storages
 
 import (
+	"sort"
+
 	"github.com/CyclopsV/service-status-skillbox/internal/email"
 	"github.com/CyclopsV/service-status-skillbox/pkg/pars"
-	"sort"
 )
 
 type EmailStorage []*email.Email
@@ -13,6 +14,10 @@ func (es *EmailStorage) Add(obj *email.Email) {
 }
 
 func NewEmailStorage(filename string) (*EmailStorage, error) {
+	return createEmeilStorage(filename)
+}
+
+func createEmeilStorage(filename string) (*EmailStorage, error) {
 	emailStr, err := pars.FileToStr(filename)
 	if err != nil {
 		return nil, err
